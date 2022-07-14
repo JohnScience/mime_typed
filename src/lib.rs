@@ -2,6 +2,14 @@
 #![cfg_attr(not(any(feature = "mime_support", feature = "evcxr_support")), no_std)]
 #![cfg_attr(doc_cfg, feature(doc_cfg))]
 
+/// Every its implementor has an associated string slice representation
+/// of the [MIME type] known at compile time.
+/// 
+/// [MIME type]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types
+pub trait MimeStrExt: Mime {
+    const MIME_STR: &'static str;
+}
+
 /// Its implementors are [MIME types]
 /// 
 /// [MIME types]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types
@@ -69,15 +77,19 @@ pub mod evcxr_support {
             /// MIME type.
             pub struct $type;
 
+            impl MimeStrExt for $type {
+                const MIME_STR: &'static str = $str;
+            }
+
             impl core::fmt::Display for $type {
                 fn fmt(&self, f: &mut core::fmt::Formatter) -> core::fmt::Result {
-                    write!(f, $str)
+                    write!(f, $type::MIME_STR)
                 }
             }
 
             impl Into<String> for $type {
                 fn into(self) -> String {
-                    $str.to_string()
+                    $type::MIME_STR.to_string()
                 }
             }
 
@@ -169,6 +181,10 @@ macro_rules! decl_mime {
         }
 
         impl Mime for $type {}
+
+        impl MimeStrExt for $type {
+            const MIME_STR: &'static str = $str;
+        }
     };
 }
 
