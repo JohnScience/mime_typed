@@ -1,15 +1,45 @@
 [package]
 name = "mime_typed"
 version = "0.1.0"
+authors = ["Dmitrii Demenev <demenev.dmitriy1@gmail.com>"]
 edition = "2021"
+rust-version = "1.56.1" # https://github.com/foresterre/cargo-msrv
+description = "More types for `mime` crate"
+documentation = "https://docs.rs/mime_typed"
+readme = "README.md"
+repository = "https://github.com/JohnScience/mime_typed"
+license = "MIT OR Apache-2.0"
+# license-file | not needed
+keywords = ["mime", "media-extensions", "media-types"]
+categories = ["no-std"] # https://crates.io/category_slugs
+# workspace | not needed
+# build | not needed
+# links | not needed
+# exclude | not needed
+include = [
+    "/Cargo.toml",
+    "/LICENSE_APACHE",
+    "/LICENSE_MIT",
+    "/README.md",
+    "/src/**",
+    "/tests/**",
+]
+# publish | not needed
+# metadata | not needed
+# default-run | not needed
+autobins = false
+autoexamples = false
+autotests = false
+autobenches = false
+# resolver | not needed
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-mime = { version = "0.3.16", optional = true }
+mime = { version = "0.3", optional = true }
 
 [dev-dependencies]
-mime = "0.3.16"
+mime = "0.3"
 
 [features]
-mime = ["dep:mime"]
+mime_support = ["mime"]

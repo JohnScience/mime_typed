@@ -27,7 +27,7 @@ it is nonetheless a reasonably well documented library that has been proven to b
 
 ## What does `mime_typed` bring to the table?
 
-This library allows writing code generic over [MIME types] easier and has **opt-in** support for [`mime`]. With `mime` feature enabled, traits obtain new functions for returning instances of [`mime`] library types.
+This library allows writing code generic over [MIME types] easier and has **opt-in** support for [`mime`]. With `mime_support` feature enabled, traits obtain new functions for returning instances of [`mime`] library types.
 
 There are plans for adding opt-in support for [`evcxr`]. However, opt-in support for other projects may be considered as well.
 
