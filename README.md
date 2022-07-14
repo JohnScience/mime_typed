@@ -33,9 +33,11 @@ it is nonetheless a reasonably well documented library that has been proven to b
 
 This library allows writing code generic over [MIME types] easier and has **opt-in** support for [`mime`]. With `mime_support` feature enabled, traits obtain new functions for returning instances of [`mime`] library types.
 
+With `evcxr_support` feature, the crate also offers support for [`evcxr`] Rust kernel for Jupyter Notebook.
+
 The types offered by library are zero-sized.
 
-There are plans for adding opt-in support for [`evcxr`]. However, opt-in support for other projects may be considered as well.
+Opt-in support for other projects may be considered as well.
 
 [`mime_typed`]: https://crates.io/crates/mime_typed
 [`mime`]: https://crates.io/crates/mime
