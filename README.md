@@ -25,12 +25,15 @@ Even though [`mime`]
 1. doesn't have a README.md on [crates.io];
 2. hasn't been updated for two years
 3. doesn't support all [MIME types] listed in [RFC 6838](https://datatracker.ietf.org/doc/html/rfc6838) by IETF;
+4. has last **published** version at <https://github.com/hyperium/mime/tree/e3e7444ca607ff87cd1475455c26876b936af77a> instead of latest commit;
 
 it is nonetheless a reasonably well documented library that has been proven to be well suitable for many projects by its use.
 
 ## What does [`mime_typed`] bring to the table?
 
 This library allows writing code generic over [MIME types] easier and has **opt-in** support for [`mime`]. With `mime_support` feature enabled, traits obtain new functions for returning instances of [`mime`] library types.
+
+The types offered by library are zero-sized.
 
 There are plans for adding opt-in support for [`evcxr`]. However, opt-in support for other projects may be considered as well.
 

@@ -2,36 +2,44 @@
 #![cfg_attr(not(feature = "mime_support"), no_std)]
 #![cfg_attr(doc_cfg, feature(doc_cfg))]
 
-/// Implementors store (or have associated) MIME types.
-pub trait AsMime {
-    #[cfg(feature = "mime_support")]
-    #[cfg_attr(doc_cfg, doc(cfg(feature = "mime_support")))]
-    fn as_mime(&self) -> mime::Mime;
-}
-
-/// Implementors store (or have associated)
-#[doc = "[\"names\"](mime::Name),"]
-/// i.e. parts of MIME types.
-pub trait AsName<'a> {
-    #[cfg(feature = "mime_support")]
-    #[cfg_attr(doc_cfg, doc(cfg(feature = "mime_support")))]
-    fn as_name(&self) -> mime::Name<'a>;
-}
-
-/// Implementors have an associated consant of type
-#[doc = "[`mime::Mime`]"]
+/// Methods and traits for working with MIME types.
+/// 
+/// Due to implementation, addition of new constants of types
+/// [`mime::Mime`] and [`mime::Name`] is impossible.
+/// 
+/// The implementation depends on [`__Atoms`] enum
+/// because of the [reliance] on `source` field of [`mime::Mime`].
+/// 
+/// [`__Atoms`]: https://github.com/hyperium/mime/blob/e3e7444ca607ff87cd1475455c26876b936af77a/src/lib.rs#L543-L548
+/// [reliance]: https://github.com/hyperium/mime/blob/e3e7444ca607ff87cd1475455c26876b936af77a/src/lib.rs#L589
 #[cfg(feature = "mime_support")]
 #[cfg_attr(doc_cfg, doc(cfg(feature = "mime_support")))]
-pub trait MimeExt {
-    const MIME: mime::Mime; 
-}
+pub mod mime_support {
+    pub use mime::{Mime,Name};
+    
+    /// Implementors store (or have associated) MIME types.
+    pub trait AsMime {
+        fn as_mime(&self) -> Mime;
+    }
 
-/// Implementors have an associated consant of type
-#[doc = "[`mime::Name`]"]
-#[cfg(feature = "mime_support")]
-#[cfg_attr(doc_cfg, doc(cfg(feature = "mime_support")))]
-pub trait NameExt<'a> {
-    const NAME: mime::Name<'a>; 
+    /// Implementors store (or have associated)
+    #[doc = "[\"names\"](mime::Name),"]
+    /// i.e. parts of MIME types.
+    pub trait AsName<'a> {
+        fn as_name(&self) -> Name<'a>;
+    }
+
+    /// Implementors have an associated consant of type
+    #[doc = "[`mime::Mime`]"]
+    pub trait MimeExt {
+        const MIME: mime::Mime; 
+    }
+
+    /// Implementors have an associated consant of type
+    #[doc = "[`mime::Name`]"]
+    pub trait NameExt<'a> {
+        const NAME: mime::Name<'a>; 
+    }
 }
 
 macro_rules! decl_name {
@@ -39,9 +47,9 @@ macro_rules! decl_name {
         /// Type for
         #[doc = concat!("[`mime::", stringify!($const), "`]: [`mime::Name`]")]
         pub struct $type;
-        impl<'a> AsName<'a> for $type {
-            #[cfg(feature = "mime_support")]
-            #[cfg_attr(doc_cfg, doc(cfg(feature = "mime_support")))]
+        #[cfg(feature = "mime_support")]
+        #[cfg_attr(doc_cfg, doc(cfg(feature = "mime_support")))]
+        impl<'a> mime_support::AsName<'a> for $type {
             fn as_name(&self) -> mime::Name<'a> {
                 mime::$const
             }
@@ -49,7 +57,7 @@ macro_rules! decl_name {
 
         #[cfg(feature = "mime_support")]
         #[cfg_attr(doc_cfg, doc(cfg(feature = "mime_support")))]
-        impl<'a> NameExt<'a> for $type {
+        impl<'a> mime_support::NameExt<'a> for $type {
             const NAME: mime::Name<'a> = mime::$const;
         }
     };
@@ -60,9 +68,9 @@ macro_rules! decl_mime {
         /// Type for
         #[doc = concat!("[`mime::", stringify!($const), "`]: [`mime::Mime`]")]
         pub struct $type;
-        impl AsMime for $type {
-            #[cfg(feature = "mime_support")]
-            #[cfg_attr(doc_cfg, doc(cfg(feature = "mime_support")))]
+        #[cfg(feature = "mime_support")]
+        #[cfg_attr(doc_cfg, doc(cfg(feature = "mime_support")))]
+        impl mime_support::AsMime for $type {
             fn as_mime(&self) -> mime::Mime {
                 mime::$const
             }
@@ -70,7 +78,7 @@ macro_rules! decl_mime {
 
         #[cfg(feature = "mime_support")]
         #[cfg_attr(doc_cfg, doc(cfg(feature = "mime_support")))]
-        impl MimeExt for $type {
+        impl mime_support::MimeExt for $type {
             const MIME: mime::Mime = mime::$const;
         }
     };
