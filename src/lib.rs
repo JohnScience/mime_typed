@@ -1,9 +1,11 @@
 #![doc = include_str!("../README.md")]
 #![cfg_attr(not(feature = "mime_support"), no_std)]
+#![cfg_attr(doc_cfg, feature(doc_cfg))]
 
 /// Implementors store (or have associated) MIME types.
 pub trait AsMime {
     #[cfg(feature = "mime_support")]
+    #[cfg_attr(doc_cfg, doc(cfg(feature = "mime_support")))]
     fn as_mime(&self) -> mime::Mime;
 }
 
@@ -12,12 +14,14 @@ pub trait AsMime {
 /// i.e. parts of MIME types.
 pub trait AsName<'a> {
     #[cfg(feature = "mime_support")]
+    #[cfg_attr(doc_cfg, doc(cfg(feature = "mime_support")))]
     fn as_name(&self) -> mime::Name<'a>;
 }
 
 /// Implementors have an associated consant of type
 #[doc = "[`mime::Mime`]"]
 #[cfg(feature = "mime_support")]
+#[cfg_attr(doc_cfg, doc(cfg(feature = "mime_support")))]
 pub trait MimeExt {
     const MIME: mime::Mime; 
 }
@@ -25,6 +29,7 @@ pub trait MimeExt {
 /// Implementors have an associated consant of type
 #[doc = "[`mime::Name`]"]
 #[cfg(feature = "mime_support")]
+#[cfg_attr(doc_cfg, doc(cfg(feature = "mime_support")))]
 pub trait NameExt<'a> {
     const NAME: mime::Name<'a>; 
 }
@@ -36,12 +41,14 @@ macro_rules! decl_name {
         pub struct $type;
         impl<'a> AsName<'a> for $type {
             #[cfg(feature = "mime_support")]
+            #[cfg_attr(doc_cfg, doc(cfg(feature = "mime_support")))]
             fn as_name(&self) -> mime::Name<'a> {
                 mime::$const
             }
         }
 
         #[cfg(feature = "mime_support")]
+        #[cfg_attr(doc_cfg, doc(cfg(feature = "mime_support")))]
         impl<'a> NameExt<'a> for $type {
             const NAME: mime::Name<'a> = mime::$const;
         }
@@ -55,12 +62,14 @@ macro_rules! decl_mime {
         pub struct $type;
         impl AsMime for $type {
             #[cfg(feature = "mime_support")]
+            #[cfg_attr(doc_cfg, doc(cfg(feature = "mime_support")))]
             fn as_mime(&self) -> mime::Mime {
                 mime::$const
             }
         }
 
         #[cfg(feature = "mime_support")]
+        #[cfg_attr(doc_cfg, doc(cfg(feature = "mime_support")))]
         impl MimeExt for $type {
             const MIME: mime::Mime = mime::$const;
         }
