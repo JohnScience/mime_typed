@@ -1,3 +1,6 @@
+[![crates.io](https://img.shields.io/crates/v/mime_typed.svg)][`mime_typed`]
+[![crates.io](https://img.shields.io/crates/d/mime_typed.svg)][`mime_typed`]
+
 # More types for [`mime`]
 
 ## What is [`mime`] library?
@@ -25,12 +28,13 @@ Even though [`mime`]
 
 it is nonetheless a reasonably well documented library that has been proven to be well suitable for many projects by its use.
 
-## What does `mime_typed` bring to the table?
+## What does [`mime_typed`] bring to the table?
 
 This library allows writing code generic over [MIME types] easier and has **opt-in** support for [`mime`]. With `mime_support` feature enabled, traits obtain new functions for returning instances of [`mime`] library types.
 
 There are plans for adding opt-in support for [`evcxr`]. However, opt-in support for other projects may be considered as well.
 
+[`mime_typed`]: https://crates.io/crates/mime_typed
 [`mime`]: https://crates.io/crates/mime
 [`reqwest`]: https://crates.io/crates/reqwest
 [`mime_guess`]: https://crates.io/crates/mime_guess
