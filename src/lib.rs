@@ -70,6 +70,8 @@ pub mod mime_support {
 #[cfg(feature = "evcxr_support")]
 #[cfg_attr(doc_cfg, doc(cfg(feature = "evcxr_support")))]
 pub mod evcxr_support {
+    use super::MimeStrExt;
+    
     macro_rules! decl_mime {
         ($type:ident as $str:literal) => {
             /// Type for 
@@ -83,13 +85,13 @@ pub mod evcxr_support {
 
             impl core::fmt::Display for $type {
                 fn fmt(&self, f: &mut core::fmt::Formatter) -> core::fmt::Result {
-                    write!(f, $type::MIME_STR)
+                    f.write_str(Self::MIME_STR)
                 }
             }
 
-            impl Into<String> for $type {
-                fn into(self) -> String {
-                    $type::MIME_STR.to_string()
+            impl From<$type> for String {
+                fn from(_mime: $type) -> Self {
+                    <$type>::MIME_STR.to_string()
                 }
             }
 
@@ -155,13 +157,13 @@ macro_rules! decl_mime {
 
         #[cfg(feature = "evcxr_support")]
         #[cfg_attr(doc_cfg, doc(cfg(feature = "evcxr_support")))]
-        impl Into<String> for $type {
+        impl From<$type> for String {
             #[cfg(not(feature = "mime_support"))]
-            fn into(self) -> String {
+            fn from(_mime: $type) -> Self {
                 $str.to_string()
             }
             #[cfg(feature = "mime_support")]
-            fn into(self) -> String {
+            fn from(_mime: $type) -> Self {
                 mime::$const.to_string()
             }
         }
