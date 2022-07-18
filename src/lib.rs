@@ -99,7 +99,8 @@ pub mod evcxr_support {
         };
     }
 
-    decl_mime!(TextMarkdownUtf8 as "text/markdown; charset=utf-8");
+    // decl_mime!(TextMarkdownUtf8 as "text/markdown; charset=utf-8");
+    decl_mime!(TextMarkdown as "text/markdown");
     pub use super::TextHtml;
 }
 
